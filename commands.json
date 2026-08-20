@@ -1,0 +1,47 @@
+{
+  "commands": [
+    {
+      "command": "!commands",
+      "category": "info",
+      "description": "Opens the OXNET 96 command database.",
+      "cost": "FREE",
+      "cooldown": "10 SEC",
+      "status": "new"
+    },
+    {
+      "command": "!trivia",
+      "category": "games",
+      "description": "Starts a trivia question when trivia is available.",
+      "cost": "FREE",
+      "cooldown": "30 SEC"
+    },
+    {
+      "command": "!points",
+      "category": "points",
+      "description": "Shows your current OX points balance.",
+      "cost": "FREE",
+      "cooldown": "10 SEC"
+    },
+    {
+      "command": "!gamble 500",
+      "category": "points",
+      "description": "Risks some of your points because apparently lessons were not learned.",
+      "cost": "YOUR DIGNITY",
+      "cooldown": "30 SEC"
+    },
+    {
+      "command": "!quote",
+      "category": "fun",
+      "description": "Pulls a random quote from the stream archive.",
+      "cost": "FREE",
+      "cooldown": "20 SEC"
+    },
+    {
+      "command": "!death",
+      "category": "fun",
+      "description": "Shows the current death count.",
+      "cost": "FREE",
+      "cooldown": "10 SEC"
+    }
+  ]
+}
