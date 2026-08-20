@@ -1,47 +1,92 @@
-{
-  "commands": [
-    {
-      "command": "!commands",
-      "category": "info",
-      "description": "Opens the OXNET 96 command database.",
-      "cost": "FREE",
-      "cooldown": "10 SEC",
-      "status": "new"
-    },
-    {
-      "command": "!trivia",
-      "category": "games",
-      "description": "Starts a trivia question when trivia is available.",
-      "cost": "FREE",
-      "cooldown": "30 SEC"
-    },
-    {
-      "command": "!points",
-      "category": "points",
-      "description": "Shows your current OX points balance.",
-      "cost": "FREE",
-      "cooldown": "10 SEC"
-    },
-    {
-      "command": "!gamble 500",
-      "category": "points",
-      "description": "Risks some of your points because apparently lessons were not learned.",
-      "cost": "YOUR DIGNITY",
-      "cooldown": "30 SEC"
-    },
-    {
-      "command": "!quote",
-      "category": "fun",
-      "description": "Pulls a random quote from the stream archive.",
-      "cost": "FREE",
-      "cooldown": "20 SEC"
-    },
-    {
-      "command": "!death",
-      "category": "fun",
-      "description": "Shows the current death count.",
-      "cost": "FREE",
-      "cooldown": "10 SEC"
-    }
-  ]
-}
+[
+  {
+    "command": "!commands",
+    "category": "social",
+    "description": "Shows the command database link.",
+    "cost": 0,
+    "cooldown": "10 sec",
+    "example": "!commands",
+    "status": "available",
+    "isNew": false
+  },
+  {
+    "command": "!trivia",
+    "category": "games",
+    "description": "Starts a trivia question for viewers.",
+    "cost": 0,
+    "cooldown": "30 sec",
+    "example": "!trivia",
+    "status": "available",
+    "isNew": true
+  },
+  {
+    "command": "!gamble <amount>",
+    "category": "points",
+    "description": "Risk your points like a degenerate.",
+    "cost": 0,
+    "cooldown": "15 sec",
+    "example": "!gamble 500",
+    "status": "available",
+    "isNew": false
+  },
+  {
+    "command": "!slots",
+    "category": "points",
+    "description": "Roll the slot machine for points.",
+    "cost": 0,
+    "cooldown": "15 sec",
+    "example": "!slots",
+    "status": "available",
+    "isNew": false
+  },
+  {
+    "command": "!duel @user",
+    "category": "games",
+    "description": "Challenge another viewer to a duel.",
+    "cost": 100,
+    "cooldown": "60 sec",
+    "example": "!duel @somebody",
+    "status": "available",
+    "isNew": false
+  },
+  {
+    "command": "!bonk",
+    "category": "sfx",
+    "description": "Plays a completely unnecessary bonk sound.",
+    "cost": 750,
+    "cooldown": "5 min",
+    "example": "!bonk",
+    "status": "available",
+    "isNew": false
+  },
+  {
+    "command": "!quote",
+    "category": "social",
+    "description": "Pulls a random quote from the archive of bad decisions.",
+    "cost": 0,
+    "cooldown": "10 sec",
+    "example": "!quote",
+    "status": "available",
+    "isNew": false
+  },
+  {
+    "command": "!death",
+    "category": "games",
+    "description": "Shows current death count if a game has one tracked.",
+    "cost": 0,
+    "cooldown": "8 sec",
+    "example": "!death",
+    "status": "available",
+    "isNew": false
+  },
+  {
+    "command": "!raid",
+    "category": "mod",
+    "description": "Moderator/admin utility for raid flow or raid-related control.",
+    "cost": 0,
+    "cooldown": "mod only",
+    "example": "!raid",
+    "status": "restricted",
+    "isNew": false
+  }
+]
