@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OXNET 96 // Command Database</title>
+  <style>
+    :root{
+      --bg:#0a090b;--panel:#111014;--cream:#e8e1d1;--muted:#aaa292;
+      --cyan:#00d9e8;--magenta:#e129d4;--red:#9d332c;--orange:#bd6535;
+    }
+    *{box-sizing:border-box}
+    html{background:#050506}
+    body{margin:0;min-height:100vh;color:var(--cream);background:
+      radial-gradient(circle at 20% 10%,rgba(225,41,212,.08),transparent 28%),
+      radial-gradient(circle at 80% 20%,rgba(0,217,232,.07),transparent 28%),
+      repeating-linear-gradient(to bottom,transparent 0 3px,rgba(255,255,255,.018) 4px),
+      var(--bg);font-family:"Courier New",monospace}
+    body:after{content:"";position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 120px #000;z-index:20}
+    .wrap{width:min(1120px,92vw);margin:0 auto;padding:54px 0 70px}
+    header{text-align:center;margin-bottom:34px}
+    h1{margin:0;color:#f2eee5;font-family:"Segoe Print","Bradley Hand ITC","Comic Sans MS",cursive;font-size:clamp(48px,8vw,92px);line-height:.9;text-transform:uppercase;transform:rotate(-2deg) skew(-4deg);text-shadow:-4px 2px 0 rgba(225,41,212,.8),4px -1px 0 rgba(0,217,232,.75),8px 7px 0 #000}
+    .sub{margin-top:18px;color:var(--muted);letter-spacing:.24em;font-size:13px;text-transform:uppercase}
+    .bar,.card{background:rgba(10,10,12,.72);border:1px solid rgba(232,225,209,.16);box-shadow:0 14px 35px rgba(0,0,0,.35)}
+    .bar{padding:14px;display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+    input{flex:1;min-width:220px;background:#050506;color:var(--cream);border:1px solid #49464e;padding:12px 13px;font:inherit;outline:none}
+    input:focus{border-color:var(--cyan);box-shadow:0 0 0 1px var(--magenta)}
+    button{background:#1a181d;color:var(--cream);border:1px solid #4d4952;padding:11px 14px;font:700 13px "Courier New",monospace;cursor:pointer;text-transform:uppercase}
+    button:hover,button.active{background:var(--cream);color:#111}
+    #filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+    #grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .card{position:relative;padding:22px;overflow:hidden}
+    .card:before{content:"";position:absolute;left:0;top:0;width:5px;height:100%;background:var(--red)}
+    .cmd{font:800 28px "Segoe Print","Comic Sans MS",cursive;color:#fff;text-shadow:-2px 1px 0 rgba(225,41,212,.65),2px 0 0 rgba(0,217,232,.6);margin-bottom:8px}
+    .desc{color:#d0c8b7;line-height:1.5;margin-bottom:16px}
+    .meta{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;border:1px solid #4b4650;padding:5px 7px;color:var(--muted)}
+    .tag.cost{color:#f1bd83;border-color:#6f5135}.tag.new{color:#ff8f87;border-color:#7f342f}
+    .empty{text-align:center;color:var(--muted);padding:50px 0;grid-column:1/-1}
+    footer{text-align:center;margin-top:42px;color:#777066;font-size:12px;letter-spacing:.12em}
+    @media(max-width:760px){#grid{grid-template-columns:1fr}.wrap{padding-top:34px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>OXNET 96</h1>
+      <div class="sub">Command Database // definitely not useful software</div>
+    </header>
+
+    <div class="bar">
+      <input id="search" type="search" placeholder="SEARCH COMMANDS..." autocomplete="off" />
+    </div>
+    <div id="filters"></div>
+    <main id="grid"></main>
+
+    <footer>OXNET 96 // YOU ARE VISITOR #00000666</footer>
+  </div>
+
+  <script>
+    const grid=document.getElementById('grid');
+    const filters=document.getElementById('filters');
+    const search=document.getElementById('search');
+    let commands=[]; let active='all';
+
+    function renderFilters(){
+      const cats=['all',...new Set(commands.map(c=>c.category).filter(Boolean))];
+      filters.innerHTML=cats.map(c=>`<button data-cat="${c}" class="${c===active?'active':''}">${c}</button>`).join('');
+      filters.querySelectorAll('button').forEach(b=>b.onclick=()=>{active=b.dataset.cat;renderFilters();render();});
+    }
+
+    function render(){
+      const q=search.value.trim().toLowerCase();
+      const list=commands.filter(c=>{
+        const cat=active==='all'||c.category===active;
+        const text=[c.command,c.description,c.category,c.example].join(' ').toLowerCase();
+        return cat&&(!q||text.includes(q));
+      });
+      grid.innerHTML=list.length?list.map(c=>`
+        <article class="card">
+          <div class="cmd">${c.command}</div>
+          <div class="desc">${c.description}</div>
+          <div class="meta">
+            <span class="tag">${c.category}</span>
+            ${c.cost?`<span class="tag cost">${c.cost}</span>`:''}
+            ${c.cooldown?`<span class="tag">${c.cooldown}</span>`:''}
+            ${c.status==='new'?'<span class="tag new">NEW</span>':''}
+          </div>
+        </article>`).join(''):'<div class="empty">NO MATCHING COMMANDS. TRY LESS SPECIFIC NONSENSE.</div>';
+    }
+
+    search.addEventListener('input',render);
+
+    fetch('./commands.json')
+      .then(r=>r.json())
+      .then(data=>{commands=data.commands||[];renderFilters();render();})
+      .catch(()=>{grid.innerHTML='<div class="empty">COMMAND DATABASE FAILED TO LOAD.</div>';});
+  </script>
+</body>
+</html>
